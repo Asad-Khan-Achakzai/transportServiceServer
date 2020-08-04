@@ -23,10 +23,11 @@
     "nodemailer": "^6.4.10",
     "nodemon": "^2.0.4",
     "shortid": "^2.2.15",
+    "dotenv": "^6.0.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "dotenv": "^6.0.0",
+    
     "eslint-config-google": "^0.9.1"
   }
 }
