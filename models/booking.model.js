@@ -23,6 +23,8 @@ const Booking = new Schema({
     },
     timing: {
         type:String
+    },date: {
+        type:String
     },
     expire: {
         type:Boolean,

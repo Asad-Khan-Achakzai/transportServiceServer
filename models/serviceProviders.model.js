@@ -8,6 +8,9 @@ const serviceProvider = new Schema({
         unique: true,
         sparse: true
     },
+    shortID: {
+        type: String
+    },
     username: {
         type: String
     },
@@ -45,16 +48,26 @@ const serviceProvider = new Schema({
         availableSeats: {
             type: Number
         },
+        priceperSeat: {
+            type: Number
+        },
         departure: {
             type: String
         },
         destination: {
             type: String
+        },
+        bookedSeats: {
+            type: Array,
+            default:[]
         }
     },
     citiesArray: {
         type: Array
-    }
+    },
+    imageUrl: {
+        type: String
+    },
     //routes: Array
 });
 serviceProvider.plugin(mongoosePaginate);
@@ -100,7 +113,8 @@ module.exports = mongoose.model("serviceProviders", serviceProvider);
 //     },
 //     servicesArray: {
 //         type: Array
-//     }
+//     },
+
 //     //routes: Array
 // });
 // serviceProvider.plugin(mongoosePaginate);

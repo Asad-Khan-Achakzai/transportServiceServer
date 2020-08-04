@@ -8,6 +8,9 @@ const User = new Schema({
         unique: true,
         sparse:true
     },
+    shortID: {
+        type: String
+    },
      username: {
         type: String
     },
@@ -23,6 +26,9 @@ const User = new Schema({
         sparse:true
     },
      password: {
+        type: String
+    },
+    imageUrl: {
         type: String
     },
     role: {
