@@ -350,6 +350,98 @@ adminsController.sendPassword = async (req, res) => {
 //     return res.status(500).send(error);
 //   }
 // }
+adminsController.changePassword = async (req, res) => {
+  
+  try {
+    
+    console.log('function called');
+    const body = req.body;
+   // console.log('req.body', body)
+    //there must be a password in body
+
+   // we follow these 2 steps
+  //  const result = await cloudinary.v2.upl.upload(req.body.imageUrl)
+  //  console.log('result = ',result.secure_url)
+  console.log('server body =' ,body);
+  admins.find({ email: body.email }, async function (err, docs) {
+    if (err) {
+      //throw err;
+      console.log('err = ',err);
+    }
+    else{
+      console.log('docs = ',docs);
+      const password =req.body.password;
+      console.log('pass= ',password);
+          var salt = bcrypt.genSaltSync(10);
+          var hash = bcrypt.hashSync(password, salt);
+      
+          docs.password = hash;
+      
+      let updates = docs;
+      runUserUpdate(req.body.email, updates, res);
+    }
+
+  });
+
+
+  } catch (ex) {
+    console.log('ex', ex);
+    if(ex.code===11000){  
+      res
+      .send({
+        message: 'This email has been registered already',
+      })
+      .status(500);
+    }
+    else {
+    res
+      .send({
+        message: 'Error',
+        detail: ex
+      })
+      .status(500);
+  }
+  }
+};
+async function runUserUpdate(email, updates, res) {
+  try {
+    const result = await admins.updateOne(
+      {
+        email: email
+      },
+      {
+        $set: updates
+      },
+      {
+        upsert: true,
+        runValidators: true
+      }
+    );
+
+    {
+      console.log('result = ',result);
+      if (result.nModified == 1) {
+        res.status(200).send({
+          code: 200,
+          message: 'Updated Successfully'
+        });
+      } else if (result.upserted) {
+        res.status(200).send({
+          code: 200,
+          message: 'Created Successfully'
+        });
+      } else {
+        res.status(422).send({
+          code: 422,
+          message: 'Unprocessible Entity'
+        });
+      }
+    }
+  } catch (error) {
+    console.log('error', error);
+    return res.status(500).send(error);
+  }
+}
 adminsController.loginUser = async (req, res) => {
   try {
     console.log("login");
