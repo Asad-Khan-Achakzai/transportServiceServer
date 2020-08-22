@@ -363,26 +363,51 @@ adminsController.changePassword = async (req, res) => {
   //  const result = await cloudinary.v2.upl.upload(req.body.imageUrl)
   //  console.log('result = ',result.secure_url)
   console.log('server body =' ,body);
-  admins.find({ email: body.email }, async function (err, docs) {
-    if (err) {
-      //throw err;
-      console.log('err = ',err);
-    }
-    else{
-      console.log('docs = ',docs);
-      const password =req.body.password;
-      console.log('pass= ',password);
-          var salt = bcrypt.genSaltSync(10);
+  // admins.find({ email: body.email }, async function (err, docs) {
+  //   if (err) {
+  //     //throw err;
+  //     console.log('err = ',err);
+  //   }
+  //   else{
+      
+  //     console.log('docs = ',docs);
+  //     const password =req.body.password;
+  //     console.log('pass= ',password);
+  //         var salt = bcrypt.genSaltSync(10);
+  //         var hash = bcrypt.hashSync(password, salt);
+      
+  //         docs.password = hash;
+  //     _id = docs._id;
+  //     let obj = {_id:docs[0]._id,email:docs[0].email,password:hash,phone:docs[0].phone};
+  //     let updates = obj;
+  //     console.log('new body =',updates);
+  //     runUserUpdate(_id, updates, res);
+  //   }
+
+  // });
+  const password =req.body.password;
+           var salt = bcrypt.genSaltSync(10);
           var hash = bcrypt.hashSync(password, salt);
       
-          docs.password = hash;
-      
-      let updates = docs;
-      runUserUpdate(req.body.email, updates, res);
-    }
-
-  });
-
+          
+  const filter = { email:req.body.email  };
+  const update = { password: hash };
+  
+  // `doc` is the document _before_ `update` was applied
+  let doc = await admins.findOneAndUpdate(filter, update);
+  if(doc){
+    res.status(200).send({
+      code: 200,
+      message: 'Updated Successfully'
+    });
+  }
+  else{
+    res.status(422).send({
+      code: 422,
+      message: 'could not update'
+    });
+    
+  }
 
   } catch (ex) {
     console.log('ex', ex);
@@ -403,11 +428,11 @@ adminsController.changePassword = async (req, res) => {
   }
   }
 };
-async function runUserUpdate(email, updates, res) {
+async function runUserUpdate(_id, updates, res) {
   try {
     const result = await admins.updateOne(
       {
-        email: email
+        _id: _id
       },
       {
         $set: updates
