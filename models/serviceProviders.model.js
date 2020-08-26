@@ -60,6 +60,9 @@ const serviceProvider = new Schema({
         bookedSeats: {
             type: Array,
             default:[]
+        },
+        paused:{
+            type:Boolean
         }
     },
     citiesArray: {

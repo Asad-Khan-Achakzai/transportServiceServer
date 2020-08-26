@@ -3,6 +3,7 @@ const router = express.Router();
 
 const UserController = require('../controllers/users.controllers');
 const checkAuth = require('../middleware/check-auth');
+const { route } = require("./users.routes");
 
 // // router.get("/",UserController.sampleUser);
 // router.get("/",UserController.getAll);

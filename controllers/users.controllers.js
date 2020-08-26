@@ -282,13 +282,13 @@ await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: body.shortID 
     for(let i = 0;i<body.servicesArray.length;i++){
     body.servicesArray[i].id = shortid.generate();
     body.servicesArray[i].bookedSeats = [];
+    body.servicesArray[i].paused = false;
   }
     const user = new serviceProvider(body);
     console.log("server body = "+user);
     const result = await user.save();
     console.log('saved = ',user);
     res.send({
-            
       message: 'Signup successful'
       });}
     else{
