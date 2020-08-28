@@ -716,6 +716,53 @@ usersController.updateServiceProvider = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+usersController.updateRanking = async (req, res) => {
+  console.log('ranking body = ',req.body)
+  //  if (!req.body.id) {
+  //    res.status(500).send({
+  //      message: 'ID missing'
+  //    });
+  //  }
+  //   try {
+  //    const _id = req.body.id;
+  //    console.log('id = ',_id)
+  //    const result =  serviceProvider.updateOne(
+  //      { "servicesArray.id": _id },
+  //      { $push: { 'servicesArray.$.bookedSeats': {$each:req.body.bookedSeats}}
+  //     },function(err,success){
+  //        if (result.nModified == 1) {
+  //          res.status(200).send({
+  //            code: 200,
+  //            message: 'Updated Successfully'
+  //          });
+  //        } else if (result.upserted) {
+  //          res.status(200).send({
+  //            code: 200,
+  //            message: 'Created Successfully'
+  //          });
+  //        } else {
+  //          {
+  //            res.status(200).send({
+  //              code: 200,
+  //              message: 'Task completed successfully'
+  //            });
+  //          }
+  //        }
+  //        if(err){
+  //        console.log('error = ',err);
+  //      }
+  //      else
+  //      console.log('success = ',success);
+  //      }
+       
+  //  );
+  //   // let updates = req.body;
+  //    //runUpdateOnServiceProvider(_id, updates, res);
+  //  } catch (error) {
+  //    console.log('error', error);
+  //    return res.status(500).send(error);
+  //  }
+ };
 usersController.updateServiceProviderRoute = async (req, res) => {
   console.log('idsss =',req.params.providerId);
   console.log('req = ',req.body)
