@@ -722,14 +722,16 @@ usersController.updateRanking = async (req, res) => {
   console.log('ranking body = ',req.body);
   let voters;
   let oldRanking;
+  let newRank;
   let body = req.body;
   try{
   await serviceProvider.find({ _id: body.id }, async function (err, docs) {
     console.log('obj = ',docs);
-    voters = docs.voters;
-    oldRanking = docs.rank;
+    voters = docs[0].voters;
+    oldRanking = docs[0].rank;
+     newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
   });
-  let newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
+  
   const filter = { _id: body.id };
 const update = { rank: newRank };
 
