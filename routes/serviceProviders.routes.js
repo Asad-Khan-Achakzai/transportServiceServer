@@ -19,7 +19,7 @@ router.get("/:_id",UserController.getServiceProvider);
 router.post("/getAllServiceProviders",UserController.getAllServiceProviders);
 router.get("/:id",UserController.getSingleServiceProviders);
 router.post("/updateServiceProvider", UserController.updateServiceProvider);
-router.post("/updateRanking", UserController.updateRanking);
+router.put("/updateRanking", UserController.updateRanking);
 router.put("/:id", UserController.editServiceProvider);
 router.post("/:providerId", UserController.updateServiceProviderRoute);
 router.delete("/:_id", UserController.deleteServiceProvider);
