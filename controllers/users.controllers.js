@@ -717,7 +717,10 @@ usersController.updateServiceProvider = async (req, res) => {
   }
 };
 usersController.updateRanking = async (req, res) => {
-  console.log('ranking body = ',req.body)
+  console.log('ranking body = ',req.body);
+     res.status(500).send({
+       message: 'recieved'
+     });
   //  if (!req.body.id) {
   //    res.status(500).send({
   //      message: 'ID missing'
