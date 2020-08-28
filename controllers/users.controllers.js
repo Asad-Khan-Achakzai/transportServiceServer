@@ -284,6 +284,7 @@ await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: body.shortID 
     body.servicesArray[i].bookedSeats = [];
     body.servicesArray[i].paused = false;
   }
+  body.voters = 1;
   body.rank = 5.0;
     const user = new serviceProvider(body);
     console.log("server body = "+user);
@@ -719,9 +720,9 @@ usersController.updateServiceProvider = async (req, res) => {
 };
 usersController.updateRanking = async (req, res) => {
   console.log('ranking body = ',req.body);
-     res.status(500).send({
-       message: 'recieved'
-     });
+  serviceProvider.find({ email: body.email }, async function (err, docs) {
+    
+  });
   //  if (!req.body.id) {
   //    res.status(500).send({
   //      message: 'ID missing'

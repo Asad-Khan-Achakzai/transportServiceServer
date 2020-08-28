@@ -74,6 +74,9 @@ const serviceProvider = new Schema({
     rank: {
         type: Number 
     },
+    voters: {
+        type: Number 
+    },
     //routes: Array
 });
 serviceProvider.plugin(mongoosePaginate);
