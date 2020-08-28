@@ -725,7 +725,7 @@ usersController.updateRanking = async (req, res) => {
   let body = req.body;
   try{
   serviceProvider.find({ _id: body.id }, async function (err, docs) {
-    
+    console.log('obj = ',docs);
     voters = docs.voters;
     oldRanking = docs.rank;
   });
