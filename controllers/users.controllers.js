@@ -722,6 +722,7 @@ usersController.updateRanking = async (req, res) => {
   console.log('ranking body = ',req.body);
   let voters;
   let oldRanking;
+  let body = req.body;
   try{
   serviceProvider.find({ _id: body.id }, async function (err, docs) {
     voters = docs.voters;
