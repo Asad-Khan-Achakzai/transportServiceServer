@@ -720,9 +720,29 @@ usersController.updateServiceProvider = async (req, res) => {
 };
 usersController.updateRanking = async (req, res) => {
   console.log('ranking body = ',req.body);
-  serviceProvider.find({ email: body.email }, async function (err, docs) {
-    
+  let voters;
+  let oldRanking;
+  try{
+  serviceProvider.find({ _id: body.id }, async function (err, docs) {
+    voters = docs.voters;
+    oldRanking = docs.rank;
   });
+  let newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
+  const filter = { _id: body.id };
+const update = { rank: newRank };
+
+// `doc` is the document _before_ `update` was applied
+let doc = await Character.serviceProvider(filter, update);
+if(doc){
+  res.status(200).send({
+                 code: 200,
+                 message: 'Task completed successfully'
+               });
+}
+}catch (error) {
+     console.log('error', error);
+     return res.status(500).send(error);
+   }
   //  if (!req.body.id) {
   //    res.status(500).send({
   //      message: 'ID missing'
