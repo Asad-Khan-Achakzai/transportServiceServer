@@ -71,6 +71,9 @@ const serviceProvider = new Schema({
     imageUrl: {
         type: String
     },
+    rank: {
+        type: Number 
+    },
     //routes: Array
 });
 serviceProvider.plugin(mongoosePaginate);

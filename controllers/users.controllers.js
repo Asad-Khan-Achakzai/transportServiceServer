@@ -284,6 +284,7 @@ await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: body.shortID 
     body.servicesArray[i].bookedSeats = [];
     body.servicesArray[i].paused = false;
   }
+  body.rank = 5.0;
     const user = new serviceProvider(body);
     console.log("server body = "+user);
     const result = await user.save();
