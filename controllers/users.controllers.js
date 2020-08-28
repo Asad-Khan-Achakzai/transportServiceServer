@@ -729,7 +729,8 @@ usersController.updateRanking = async (req, res) => {
     console.log('obj = ',docs);
     voters = docs[0].voters;
     oldRanking = docs[0].rank;
-     newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
+     newRank = ((oldRanking * voters)+ body.ranking)/voters+1.0;
+     console.log('new ranking = ',newRank);
   });
   
   const filter = { _id: body.id };
