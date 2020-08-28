@@ -725,6 +725,7 @@ usersController.updateRanking = async (req, res) => {
   let body = req.body;
   try{
   serviceProvider.find({ _id: body.id }, async function (err, docs) {
+    
     voters = docs.voters;
     oldRanking = docs.rank;
   });
@@ -733,7 +734,7 @@ usersController.updateRanking = async (req, res) => {
 const update = { rank: newRank };
 
 // `doc` is the document _before_ `update` was applied
-let doc = await Character.serviceProvider(filter, update);
+let doc = await serviceProvider.findOneAndUpdate(filter, update);
 if(doc){
   res.status(200).send({
                  code: 200,
