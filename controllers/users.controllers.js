@@ -729,7 +729,18 @@ usersController.updateRanking = async (req, res) => {
     console.log('obj = ',docs);
     voters = docs[0].voters;
     oldRanking = docs[0].rank;
-     newRank = ((oldRanking * voters)+ body.ranking)/voters+1.0;
+
+    let mul = oldRanking * voters;
+    console.log('mul = ',mul);
+    let plus = mul + body.ranking;
+    console.log('plus = ',plus);
+    let voterPlus = voters+1 
+    console.log('voterPlus = ',voterPlus);
+    let div = plus/voterPlus;
+    console.log('div = ',div);
+     newRank = div;
+    // newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
+
      console.log('new ranking = ',newRank);
   });
   
