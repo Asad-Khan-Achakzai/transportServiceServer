@@ -3,15 +3,15 @@ const Users = require('../models/users.model');
 const serviceProvider = require('../models/serviceProviders.model');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const jsonwebtoken =  require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken');
 var shortid = require('shortid');
 const { use } = require('../routes/users.routes');
 var cloudinary = require('cloudinary');
 const { strict } = require('assert');
-pass:String;
-serviceProviderPass:String;
+pass: String;
+serviceProviderPass: String;
 cloudinary.config({
-  cloud_name : 'dlyi2iena',
+  cloud_name: 'dlyi2iena',
   api_key: '335346455655612',
   api_secret: 'jRS_m5DJRXAXu0U7xjgUGwkp5OA'
 
@@ -30,7 +30,7 @@ usersController.getAll = async (req, res) => {
       { password: 0 },
       {
         password: 0,
-        offset: parseInt(start),    
+        offset: parseInt(start),
         limit: parseInt(length)
       }
     );
@@ -73,7 +73,7 @@ usersController.getAllServiceProviders = async (req, res) => {
 
 usersController.getSingleUser = async (req, res) => {
   let user;
-  console.log('body of customer =',req.body);
+  console.log('body of customer =', req.body);
   const body = req.body;
   // const email = body.email;
   //   console.log(email);
@@ -82,10 +82,10 @@ usersController.getSingleUser = async (req, res) => {
   //const result = await Users.findOne({ email: email });
   try {
     const _id = req.body.id;
-   // user = await Users.findOne({ _id: _id });
-   user = await Users.findOne({ _id: _id });
-   user.password = this.pass;
-   user.log
+    // user = await Users.findOne({ _id: _id });
+    user = await Users.findOne({ _id: _id });
+    user.password = this.pass;
+    user.log
     res.status(200).send({
       code: 200,
       message: 'Successful',
@@ -107,9 +107,9 @@ usersController.getUser = async (req, res) => {
   //const result = await Users.findOne({ email: email });
   try {
     const _id = req.params.id;
-    console.log('id of customer =',_id);
-   // user = await Users.findOne({ _id: _id });
-   user = await Users.findOne({ _id: _id });
+    console.log('id of customer =', _id);
+    // user = await Users.findOne({ _id: _id });
+    user = await Users.findOne({ _id: _id });
     res.status(200).send({
       code: 200,
       message: 'Successful',
@@ -130,9 +130,9 @@ usersController.getSingleServiceProviders = async (req, res) => {
   //const result = await Users.findOne({ email: email });
   try {
     const _id = req.params.id;
-    console.log('id of serviceProvider =',_id);
-   // user = await Users.findOne({ _id: _id });
-   user = await serviceProvider.findOne({ _id: _id });
+    console.log('id of serviceProvider =', _id);
+    // user = await Users.findOne({ _id: _id });
+    user = await serviceProvider.findOne({ _id: _id });
     res.status(200).send({
       code: 200,
       message: 'Successful',
@@ -144,7 +144,7 @@ usersController.getSingleServiceProviders = async (req, res) => {
   }
 };
 usersController.getServiceProvider = async (req, res) => {
-  console.log('id =',req.params._id);
+  console.log('id =', req.params._id);
   let user;
   const body = req.body;
   const email = body.email;
@@ -153,8 +153,8 @@ usersController.getServiceProvider = async (req, res) => {
   //const result = await Users.findOne({ email: email });
   try {
     const _id = req.params._id;
-   // user = await Users.findOne({ _id: _id });
-   user = await serviceProvider.findOne({ _id : _id  });
+    // user = await Users.findOne({ _id: _id });
+    user = await serviceProvider.findOne({ _id: _id });
     res.status(200).send({
       code: 200,
       message: 'Successful',
@@ -168,83 +168,83 @@ usersController.getServiceProvider = async (req, res) => {
 };
 
 
- usersController.registerUser = async (req, res) => {
-  
+usersController.registerUser = async (req, res) => {
+
   try {
-    
+
     console.log('function called');
     const body = req.body;
-   // console.log('req.body', body)
+    // console.log('req.body', body)
     //there must be a password in body
 
-   // we follow these 2 steps
-  //  const result = await cloudinary.v2.upl.upload(req.body.imageUrl)
-  //  console.log('result = ',result.secure_url)
-  console.log('server body =' ,body);
-  Users.find({ email: body.email }, async function (err, docs) {
-    if (err) {
-      //throw err;
-      console.log('err = ',err);
-    }
-   // console.log("data", docs);
+    // we follow these 2 steps
+    //  const result = await cloudinary.v2.upl.upload(req.body.imageUrl)
+    //  console.log('result = ',result.secure_url)
+    console.log('server body =', body);
+    Users.find({ email: body.email }, async function (err, docs) {
+      if (err) {
+        //throw err;
+        console.log('err = ', err);
+      }
+      // console.log("data", docs);
 
-    // Emit the messages
-    body.shortID = shortid.generate();
-    if(!docs.length){
-         await cloudinary.v2.uploader.upload(body.imageUrl,{ public_id: body.shortID }, function(error, result) {
-    console.log('result =',result);
-    if(!result){
-      res
-      .send({
-        message: 'image is not saved',
-      })
-      .status(500);
-    }
-    body.imageUrl =  result.secure_url;
-    console.log(result.secure_url);
-  
-  });
-//body.imageUrl = url;
-     const password = body.password;
+      // Emit the messages
+      body.shortID = shortid.generate();
+      if (!docs.length) {
+        await cloudinary.v2.uploader.upload(body.imageUrl, { public_id: body.shortID }, function (error, result) {
+          console.log('result =', result);
+          if (!result) {
+            res
+              .send({
+                message: 'image is not saved',
+              })
+              .status(500);
+          }
+          body.imageUrl = result.secure_url;
+          console.log(result.secure_url);
 
-     var salt = bcrypt.genSaltSync(10);
-     var hash = bcrypt.hashSync(password, salt);
+        });
+        //body.imageUrl = url;
+        const password = body.password;
 
-     body.password = hash;
-     const user = new Users(body);
-//console.log('user = ',user);
-    const result = await user.save();
-     res.send({
-      message: 'Signup successful'
-     });
-    }
-    else{
-      res
-      .send({
-        message: 'This email has been registered already',
-      })
-      .status(500);
-    }
-    //socket.emit("customerInboxData", docs);
-  });
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+
+        body.password = hash;
+        const user = new Users(body);
+        //console.log('user = ',user);
+        const result = await user.save();
+        res.send({
+          message: 'Signup successful'
+        });
+      }
+      else {
+        res
+          .send({
+            message: 'This email has been registered already',
+          })
+          .status(500);
+      }
+      //socket.emit("customerInboxData", docs);
+    });
 
   } catch (ex) {
     console.log('ex', ex);
-    if(ex.code===11000){  
+    if (ex.code === 11000) {
       res
-      .send({
-        message: 'This email has been registered already',
-      })
-      .status(500);
+        .send({
+          message: 'This email has been registered already',
+        })
+        .status(500);
     }
     else {
-    res
-      .send({
-        message: 'Error',
-        detail: ex
-      })
-      .status(500);
-  }
+      res
+        .send({
+          message: 'Error',
+          detail: ex
+        })
+        .status(500);
+    }
   }
 };
 usersController.registerServiceProvider = async (req, res) => {
@@ -255,154 +255,155 @@ usersController.registerServiceProvider = async (req, res) => {
     // there must be a password in body
 
     // we follow these 2 steps
-//console.log("server body = "+body);
-serviceProvider.find({ email: body.email }, async function (err, docs) {
-  if (err) {
-    //throw err;
-    console.log('err = ',err);
-  }
- // console.log("data", docs);
+    //console.log("server body = "+body);
+    serviceProvider.find({ email: body.email }, async function (err, docs) {
+      if (err) {
+        //throw err;
+        console.log('err = ', err);
+      }
+      // console.log("data", docs);
 
-  // Emit the messages
-  if(!docs.length){
-    body.shortID = shortid.generate();
-    
-await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: body.shortID }, function(error, result) {
- // console.log('result =',result);
-  body.imageUrl =  result.secure_url;
-  console.log(result.secure_url);
+      // Emit the messages
+      if (!docs.length) {
+        body.shortID = shortid.generate();
 
-});
-    const password = body.password;
+        await cloudinary.v2.uploader.upload(req.body.imageUrl, { public_id: body.shortID }, function (error, result) {
+          // console.log('result =',result);
+          body.imageUrl = result.secure_url;
+          console.log(result.secure_url);
 
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(password, salt);
+        });
+        const password = body.password;
 
-    body.password = hash;
-    for(let i = 0;i<body.servicesArray.length;i++){
-    body.servicesArray[i].id = shortid.generate();
-    body.servicesArray[i].bookedSeats = [];
-    body.servicesArray[i].paused = false;
-  }
-  body.voters = 1;
-  body.rank = 5.0;
-    const user = new serviceProvider(body);
-    console.log("server body = "+user);
-    const result = await user.save();
-    console.log('saved = ',user);
-    res.send({
-      message: 'Signup successful'
-      });}
-    else{
-      res
-      .send({
-        message: 'This email has been registered already',
-      })
-      .status(500);
-    }
-  });
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+
+        body.password = hash;
+        for (let i = 0; i < body.servicesArray.length; i++) {
+          body.servicesArray[i].id = shortid.generate();
+          body.servicesArray[i].bookedSeats = [];
+          body.servicesArray[i].paused = false;
+        }
+        body.voters = 1;
+        body.rank = 5.0;
+        const user = new serviceProvider(body);
+        console.log("server body = " + user);
+        const result = await user.save();
+        console.log('saved = ', user);
+        res.send({
+          message: 'Signup successful'
+        });
+      }
+      else {
+        res
+          .send({
+            message: 'This email has been registered already',
+          })
+          .status(500);
+      }
+    });
   } catch (ex) {
     console.log('ex', ex);
-    if(ex.code===11000){
+    if (ex.code === 11000) {
       res
-      .send({
-        message: 'This email has been registered already',
-      })
-      .status(500);
+        .send({
+          message: 'This email has been registered already',
+        })
+        .status(500);
     }
     else {
-    res
-      .send({
-        message: 'Error',
-        detail: ex
-      })
-      .status(500);
-  }
+      res
+        .send({
+          message: 'Error',
+          detail: ex
+        })
+        .status(500);
+    }
   }
 };
 
 usersController.serviceProviderLogin = async (req, res) => {
   try {
-      const body = req.body;
-  
-      const email = body.email;
-  
-      // lets check if email exists
-  
-      const result = await serviceProvider.findOne({ email: email });
-      if (!result) {
-        // this means result is null
-        res.status(401).send({
-          message: 'This user doesnot exists. Please signup first'
-        });
-      } else {
-        // email did exist
-        // so lets match password
-       
-       
-        if ( bcrypt.compareSync(body.password, result.password)) {
-          // great, allow this user access
-          this.serviceProviderPass = body.password;
-          result.password = undefined;
-  
-          const token = jsonwebtoken.sign({
-            data: result,
-            role: 'User'
-         }, process.env.JWT_KEY, { expiresIn: '7d' });
-           
-          res.send({ message: 'Successfully Logged in', token: token, id: result._id });
-        } 
-        
-        else {
-          console.log('password doesnot match');
-  
-          res.status(401).send({ message: 'Wrong email or Password' });
-        }
+    const body = req.body;
+
+    const email = body.email;
+
+    // lets check if email exists
+
+    const result = await serviceProvider.findOne({ email: email });
+    if (!result) {
+      // this means result is null
+      res.status(401).send({
+        message: 'This user doesnot exists. Please signup first'
+      });
+    } else {
+      // email did exist
+      // so lets match password
+
+
+      if (bcrypt.compareSync(body.password, result.password)) {
+        // great, allow this user access
+        this.serviceProviderPass = body.password;
+        result.password = undefined;
+
+        const token = jsonwebtoken.sign({
+          data: result,
+          role: 'User'
+        }, process.env.JWT_KEY, { expiresIn: '7d' });
+
+        res.send({ message: 'Successfully Logged in', token: token, id: result._id });
       }
-    } catch (ex) {
-      console.log('ex', ex);
+
+      else {
+        console.log('password doesnot match');
+
+        res.status(401).send({ message: 'Wrong email or Password' });
+      }
     }
+  } catch (ex) {
+    console.log('ex', ex);
+  }
 };
 usersController.loginUser = async (req, res) => {
-    try {
-      console.log('login');
-        const body = req.body;
-    
-        const email = body.email;
-    
-        // lets check if email exists
-    
-        const result = await Users.findOne({ email: email });
-        if (!result) {
-          // this means result is null
-          res.status(401).send({
-            message: 'This user doesnot exists. Please signup first'
-          });
-        } else {
-          // email did exist
-          // so lets match password
-    
-          if ( bcrypt.compareSync(body.password, result.password)) {
-            // great, allow this user access
-            this.pass = body.password;
-           result.password = undefined;
-            const token = jsonwebtoken.sign({
-               data: result,
-               role: 'User'
-            }, process.env.JWT_KEY, { expiresIn: '7d' });
-           
-            res.send({ message: 'Successfully Logged in', token: token, id: result._id });
-          } 
-          
-          else {
-            console.log('password doesnot match');
-    
-            res.status(401).send({ message: 'Wrong email or Password' });
-          }
-        }
-      } catch (ex) {
-        console.log('ex', ex);
+  try {
+    console.log('login');
+    const body = req.body;
+
+    const email = body.email;
+
+    // lets check if email exists
+
+    const result = await Users.findOne({ email: email });
+    if (!result) {
+      // this means result is null
+      res.status(401).send({
+        message: 'This user doesnot exists. Please signup first'
+      });
+    } else {
+      // email did exist
+      // so lets match password
+
+      if (bcrypt.compareSync(body.password, result.password)) {
+        // great, allow this user access
+        this.pass = body.password;
+        result.password = undefined;
+        const token = jsonwebtoken.sign({
+          data: result,
+          role: 'User'
+        }, process.env.JWT_KEY, { expiresIn: '7d' });
+
+        res.send({ message: 'Successfully Logged in', token: token, id: result._id });
       }
+
+      else {
+        console.log('password doesnot match');
+
+        res.status(401).send({ message: 'Wrong email or Password' });
+      }
+    }
+  } catch (ex) {
+    console.log('ex', ex);
+  }
 };
 
 usersController.getNextId = async (req, res) => {
@@ -440,7 +441,7 @@ usersController.deleteUser = async (req, res) => {
     const _id = req.params._id;
 
     const result = await Users.findOneAndDelete({
-      _id: _id  
+      _id: _id
     });
     //   const result = await Inventory.updateOne({
     //         _id: _id
@@ -470,7 +471,7 @@ usersController.deleteServiceProvider = async (req, res) => {
     const _id = req.params._id;
 
     const result = await serviceProvider.findOneAndDelete({
-      _id: _id  
+      _id: _id
     });
     //   const result = await Inventory.updateOne({
     //         _id: _id
@@ -504,40 +505,40 @@ usersController.uploadAvatar = async (req, res) => {
   }
 };
 usersController.updateUser = async (req, res) => {
-  console.log('id =',req.params.logedInCustomerId);
-  console.log('body =',req.body);
+  console.log('id =', req.params.logedInCustomerId);
+  console.log('body =', req.body);
   if (!req.params.logedInCustomerId) {
     res.status(500).send({
       message: 'ID missing'
     });
   }
   let img = req.body.imageUrl;
-  console.log('img =',img);
-  
-  if(new RegExp("[a-zA-Z\d]+://(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?").test(img)){
-    console.log('httpimg =',img);
+  console.log('img =', img);
+
+  if (new RegExp("[a-zA-Z\d]+://(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?").test(img)) {
+    console.log('httpimg =', img);
   }
-  else{
-    console.log('not =',img);
-    await cloudinary.v2.uploader.destroy(req.body.shortID, function(error, result) {
-      console.log('result =',result);
-  });
-    await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: req.body.shortID }, function(error, result) {
-      console.log('result =',result);
-      req.body.imageUrl =  result.secure_url;
-    console.log('dataimg =',img);
-  });
-}
+  else {
+    console.log('not =', img);
+    await cloudinary.v2.uploader.destroy(req.body.shortID, function (error, result) {
+      console.log('result =', result);
+    });
+    await cloudinary.v2.uploader.upload(req.body.imageUrl, { public_id: req.body.shortID }, function (error, result) {
+      console.log('result =', result);
+      req.body.imageUrl = result.secure_url;
+      console.log('dataimg =', img);
+    });
+  }
   try {
-    const password =req.body.password;
-console.log('pass= ',password);
+    const password = req.body.password;
+    console.log('pass= ', password);
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
 
     req.body.password = hash;
     const _id = req.params.logedInCustomerId;
     let updates = req.body;
-    console.log('updats',updates);
+    console.log('updats', updates);
     runUserUpdate(_id, updates, res);
   } catch (error) {
     console.log('error', error);
@@ -561,7 +562,7 @@ async function runUserUpdate(_id, updates, res) {
     );
 
     {
-      console.log('result = ',result);
+      console.log('result = ', result);
       if (result.nModified == 1) {
         res.status(200).send({
           code: 200,
@@ -585,8 +586,8 @@ async function runUserUpdate(_id, updates, res) {
   }
 }
 usersController.editServiceProvider = async (req, res) => {
-  console.log('id =',req.params.id);
-  console.log('body =',req.body);
+  console.log('id =', req.params.id);
+  console.log('body =', req.body);
   if (!req.params.id) {
     res.status(500).send({
       message: 'ID missing'
@@ -594,29 +595,29 @@ usersController.editServiceProvider = async (req, res) => {
   }
   let img = req.body.imageUrl;
   //console.log('img =',img);
-  if(new RegExp("[a-zA-Z\d]+://(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?").test(img)){
-    console.log('httpimg =',img);
+  if (new RegExp("[a-zA-Z\d]+://(\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?").test(img)) {
+    console.log('httpimg =', img);
   }
-  else{
-    await cloudinary.v2.uploader.destroy(req.body.shortID, function(error, result) {
-      console.log('result =',result);
-  });
-    await cloudinary.v2.uploader.upload(req.body.imageUrl,{ public_id: req.body.shortID }, function(error, result) {
-      console.log('result =',result);
-      req.body.imageUrl =  result.secure_url;
-    console.log('dataimg =',img);
-  });
-}
+  else {
+    await cloudinary.v2.uploader.destroy(req.body.shortID, function (error, result) {
+      console.log('result =', result);
+    });
+    await cloudinary.v2.uploader.upload(req.body.imageUrl, { public_id: req.body.shortID }, function (error, result) {
+      console.log('result =', result);
+      req.body.imageUrl = result.secure_url;
+      console.log('dataimg =', img);
+    });
+  }
   try {
-    const password =req.body.password;
+    const password = req.body.password;
 
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
-    for(let i = 0;i<req.body.servicesArray.length;i++){
-      if(!req.body.servicesArray[i].id){
+    for (let i = 0; i < req.body.servicesArray.length; i++) {
+      if (!req.body.servicesArray[i].id) {
         req.body.servicesArray[i].id = shortid.generate();
         req.body.servicesArray[i].bookedSeats = [];
-        console.log('new arr ',req.body.servicesArray[i])
+        console.log('new arr ', req.body.servicesArray[i])
       }
 
     }
@@ -672,19 +673,20 @@ async function runUpdate(_id, updates, res) {
   }
 }
 usersController.updateServiceProvider = async (req, res) => {
- console.log('req = ',req.body)
+  console.log('req = ', req.body)
   if (!req.body.id) {
     res.status(500).send({
       message: 'ID missing'
     });
   }
-   try {
+  try {
     const _id = req.body.id;
-    console.log('id = ',_id)
-    const result =  serviceProvider.updateOne(
+    console.log('id = ', _id)
+    const result = serviceProvider.updateOne(
       { "servicesArray.id": _id },
-      { $push: { 'servicesArray.$.bookedSeats': {$each:req.body.bookedSeats}}
-     },function(err,success){
+      {
+        $push: { 'servicesArray.$.bookedSeats': { $each: req.body.bookedSeats } }
+      }, function (err, success) {
         if (result.nModified == 1) {
           res.status(200).send({
             code: 200,
@@ -703,15 +705,15 @@ usersController.updateServiceProvider = async (req, res) => {
             });
           }
         }
-        if(err){
-        console.log('error = ',err);
+        if (err) {
+          console.log('error = ', err);
+        }
+        else
+          console.log('success = ', success);
       }
-      else
-      console.log('success = ',success);
-      }
-      
-  );
-   // let updates = req.body;
+
+    );
+    // let updates = req.body;
     //runUpdateOnServiceProvider(_id, updates, res);
   } catch (error) {
     console.log('error', error);
@@ -719,46 +721,58 @@ usersController.updateServiceProvider = async (req, res) => {
   }
 };
 usersController.updateRanking = async (req, res) => {
-  console.log('ranking body = ',req.body);
+  console.log('ranking body = ', req.body);
   let voters;
   let oldRanking;
   let newRank;
   let body = req.body;
-  try{
-  await serviceProvider.find({ _id: body.id }, async function (err, docs) {
-    console.log('obj = ',docs);
-    voters = docs[0].voters;
-    oldRanking = docs[0].rank;
+  try {
+    await serviceProvider.find({ _id: body.id }, async function (err, docs) {
+      console.log('obj = ', docs);
+      voters = docs[0].voters;
+      oldRanking = docs[0].rank;
 
-    let mul = oldRanking * voters;
-    console.log('mul = ',mul);
-    let plus = mul + body.ranking;
-    console.log('plus = ',plus);
-    let voterPlus = voters+1 
-    console.log('voterPlus = ',voterPlus);
-    let div = plus/voterPlus;
-    console.log('div = ',div);
-     newRank = div;
-    // newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
+      let mul = oldRanking * voters;
+      console.log('mul = ', mul);
+      let plus = mul + body.ranking;
+      console.log('plus = ', plus);
+      let voterPlus = voters + 1
+      console.log('voterPlus = ', voterPlus);
+      let div = plus / voterPlus;
+      console.log('div = ', div);
+      newRank = div;
+      // newRank = ((oldRanking * voters)+ body.ranking)/voters+1;
 
-     console.log('new ranking = ',newRank);
-  });
-  
-  const filter = { _id: body.id };
-const update = { rank: newRank };
+      console.log('new ranking = ', newRank);
+      const filter = { _id: body.id };
+      const update = { rank: newRank, voters: voterPlus };
 
-// `doc` is the document _before_ `update` was applied
-let doc = await serviceProvider.findOneAndUpdate(filter, update);
-if(doc){
-  res.status(200).send({
-                 code: 200,
-                 message: 'Task completed successfully'
-               });
-}
-}catch (error) {
-     console.log('error', error);
-     return res.status(500).send(error);
-   }
+      // `doc` is the document _before_ `update` was applied
+      let doc = await serviceProvider.findOneAndUpdate(filter, update);
+      console.log('update funciton called');
+      if (doc) {
+        res.status(200).send({
+          code: 200,
+          message: 'Task completed successfully'
+        });
+      }
+    });
+
+    // const filter = { _id: body.id };
+    // const update = { rank: newRank };
+
+    // // `doc` is the document _before_ `update` was applied
+    // let doc = await serviceProvider.findOneAndUpdate(filter, update);
+    // if (doc) {
+    //   res.status(200).send({
+    //     code: 200,
+    //     message: 'Task completed successfully'
+    //   });
+    // }
+  } catch (error) {
+    console.log('error', error);
+    return res.status(500).send(error);
+  }
   //  if (!req.body.id) {
   //    res.status(500).send({
   //      message: 'ID missing'
@@ -795,7 +809,7 @@ if(doc){
   //      else
   //      console.log('success = ',success);
   //      }
-       
+
   //  );
   //   // let updates = req.body;
   //    //runUpdateOnServiceProvider(_id, updates, res);
@@ -803,58 +817,59 @@ if(doc){
   //    console.log('error', error);
   //    return res.status(500).send(error);
   //  }
- };
+};
 usersController.updateServiceProviderRoute = async (req, res) => {
-  console.log('idsss =',req.params.providerId);
-  console.log('req = ',req.body)
-   if (!req.params.providerId) {
-     res.status(500).send({
-       message: 'ID missing'
-     });
-   }
-    try {
-     const _id = req.body.routId;
-     console.log('id = ',_id)
-     const result =  serviceProvider.updateOne(
-       { "servicesArray.id": _id },
-       
-       { $pullAll: { 'servicesArray.$.bookedSeats':   req.body.seats   }
-      //  { $push: { 'servicesArray.$.bookedSeats': {$each:req.body.bookedSeats}}
-      },function(err,success){
-         if (result.nModified === 1) {
-           res.status(200).send({
-             code: 200,
-             message: 'Updated Successfully'
-           });
-         } else if (result.upserted) {
-           res.status(200).send({
-             code: 200,
-             message: 'Created Successfully'
-           });
-         } else {
-           {
-             res.status(200).send({
-               code: 200,
-               message: 'Task completed successfully'
-             });
-           }
-         }
-         if(err){
-         console.log('error = ',err);
-       }
-       else
-       console.log('success = ',success);
-       }
-       
-   );
+  console.log('idsss =', req.params.providerId);
+  console.log('req = ', req.body)
+  if (!req.params.providerId) {
+    res.status(500).send({
+      message: 'ID missing'
+    });
+  }
+  try {
+    const _id = req.body.routId;
+    console.log('id = ', _id)
+    const result = serviceProvider.updateOne(
+      { "servicesArray.id": _id },
+
+      {
+        $pullAll: { 'servicesArray.$.bookedSeats': req.body.seats }
+        //  { $push: { 'servicesArray.$.bookedSeats': {$each:req.body.bookedSeats}}
+      }, function (err, success) {
+        if (result.nModified === 1) {
+          res.status(200).send({
+            code: 200,
+            message: 'Updated Successfully'
+          });
+        } else if (result.upserted) {
+          res.status(200).send({
+            code: 200,
+            message: 'Created Successfully'
+          });
+        } else {
+          {
+            res.status(200).send({
+              code: 200,
+              message: 'Task completed successfully'
+            });
+          }
+        }
+        if (err) {
+          console.log('error = ', err);
+        }
+        else
+          console.log('success = ', success);
+      }
+
+    );
     // let updates = req.body;
-     //runUpdateOnServiceProvider(_id, updates, res);
-   } catch (error) {
-     console.log('error', error);
-     return res.status(500).send(error);
-   }
- };
- 
+    //runUpdateOnServiceProvider(_id, updates, res);
+  } catch (error) {
+    console.log('error', error);
+    return res.status(500).send(error);
+  }
+};
+
 // async function runUpdateOnServiceProvider(_id, updates, res) {
 //   try {
 //     const result = await serviceProvider.updateOne(
